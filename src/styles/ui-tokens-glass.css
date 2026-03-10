@@ -1,6 +1,6 @@
 :root {
   /* Surface and text */
-  --glass-bg-canvas: #f3f4f6;
+  --glass-bg-canvas: #F5F3FF;
   --glass-bg-surface: rgba(255, 255, 255, 0.88);
   --glass-bg-surface-strong: rgba(255, 255, 255, 0.94);
   --glass-bg-surface-modal: rgba(255, 255, 255, 0.97);
@@ -15,7 +15,7 @@
   --glass-stroke-soft: rgba(255, 255, 255, 0.22);
   --glass-stroke-base: rgba(111, 126, 153, 0.24);
   --glass-stroke-strong: rgba(93, 109, 138, 0.36);
-  --glass-stroke-focus: rgba(47, 123, 255, 0.64);
+  --glass-stroke-focus: rgba(124, 58, 237, 0.64);
   --glass-stroke-danger: rgba(236, 72, 72, 0.64);
   --glass-stroke-warning: rgba(234, 149, 0, 0.62);
   --glass-stroke-success: rgba(18, 176, 109, 0.62);
@@ -53,8 +53,8 @@
   /* Tone system */
   --glass-tone-neutral-bg: rgba(100, 116, 139, 0.18);
   --glass-tone-neutral-fg: #374151;
-  --glass-tone-info-bg: rgba(47, 123, 255, 0.2);
-  --glass-tone-info-fg: #1d63e8;
+  --glass-tone-info-bg: rgba(124, 58, 237, 0.15);
+  --glass-tone-info-fg: #7C3AED;
   --glass-tone-success-bg: rgba(16, 185, 129, 0.2);
   --glass-tone-success-fg: #0f9f62;
   --glass-tone-warning-bg: rgba(245, 158, 11, 0.24);
@@ -66,13 +66,13 @@
   --glass-overlay: rgba(10, 16, 30, 0.46);
   --glass-overlay-strong: rgba(10, 16, 30, 0.58);
 
-  /* Accent + interactive rings */
-  --glass-accent-from: #2f7bff;
-  --glass-accent-to: #5ca8ff;
-  --glass-accent-shadow-soft: rgba(47, 123, 255, 0.24);
-  --glass-accent-shadow-strong: rgba(47, 123, 255, 0.32);
-  --glass-focus-ring: rgba(47, 123, 255, 0.16);
-  --glass-focus-ring-strong: rgba(47, 123, 255, 0.22);
+  /* Accent + interactive rings — AI 紫韵 */
+  --glass-accent-from: #7C3AED;
+  --glass-accent-to: #A78BFA;
+  --glass-accent-shadow-soft: rgba(124, 58, 237, 0.24);
+  --glass-accent-shadow-strong: rgba(124, 58, 237, 0.32);
+  --glass-focus-ring: rgba(124, 58, 237, 0.16);
+  --glass-focus-ring-strong: rgba(124, 58, 237, 0.22);
   --glass-danger-ring: rgba(239, 68, 68, 0.14);
   --glass-ghost-hover-bg: rgba(255, 255, 255, 0.5);
 }

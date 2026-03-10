@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import LanguageSwitcher from './LanguageSwitcher'
@@ -41,14 +40,10 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
-              <Link href={{ pathname: session ? '/workspace' : '/' }} className="group">
-                <Image
-                  src="/logo-small.png?v=1"
-                  alt={tc('appName')}
-                  width={80}
-                  height={80}
-                  className="object-contain transition-transform group-hover:scale-110"
-                />
+              <Link href={{ pathname: session ? '/workspace' : '/' }} className="group flex items-center">
+                <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-[#A78BFA] to-[#22D3EE] bg-clip-text text-transparent transition-transform group-hover:scale-105">
+                  {tc('appName')}
+                </span>
               </Link>
               <button
                 type="button"

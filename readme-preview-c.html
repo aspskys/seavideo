@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>seavideo README — C. 瑞士极简</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAFA;
+    --bg-card: #FFFFFF;
+    --border: #E5E5E5;
+    --border-hover: #D4D4D4;
+    --text: #0A0A0A;
+    --text-secondary: #525252;
+    --text-dim: #A3A3A3;
+    --accent: #2563EB;
+    --accent-light: #DBEAFE;
+    --code-bg: #F5F5F5;
+    --warn-bg: #FFFBEB;
+    --warn-border: #FDE68A;
+    --warn-text: #92400E;
+    --info-bg: #EFF6FF;
+    --info-border: #BFDBFE;
+    --info-text: #1E40AF;
+    --success-bg: #F0FDF4;
+    --success-border: #BBF7D0;
+    --success-text: #166534;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+
+  .preview-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--text);
+    text-align: center; padding: 10px; font-size: 13px; font-weight: 600; color: #fff;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 120px 24px 40px;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .hero-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .hero-top .mark {
+    width: 48px;
+    height: 48px;
+    background: var(--text);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .hero-top .meta {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-top .meta .name {
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .hero-top .meta .label {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .hero h1 {
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .hero .desc {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .hero-links {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+
+  .hero-links a {
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .btn-dark {
+    background: var(--text);
+    color: #fff;
+  }
+  .btn-dark:hover { background: #262626; }
+
+  .btn-light {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .btn-light:hover { border-color: var(--text); color: var(--text); }
+
+  /* Alert */
+  .alert-bar {
+    margin: 0 auto 32px;
+    max-width: 780px;
+    padding: 14px 18px;
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--warn-text);
+    line-height: 1.7;
+  }
+
+  /* Section */
+  .section { padding: 36px 0; }
+
+  .section-title {
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--text);
+    display: inline-block;
+  }
+
+  .divider {
+    border: none;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Features - horizontal list */
+  .feature-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .feature-list-item {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .feature-list-item:last-child { border-bottom: none; }
+  .feature-list-item:hover { background: #F5F5F5; }
+
+  .feature-list-item .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    width: 24px;
+  }
+
+  .feature-list-item h3 {
+    font-size: 15px;
+    font-weight: 600;
+    min-width: 130px;
+  }
+
+  .feature-list-item p {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  /* Code */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    overflow-x: auto;
+    margin-bottom: 12px;
+  }
+  pre .c { color: var(--text-dim); }
+  pre .k { color: var(--accent); }
+
+  /* Deploy Sections */
+  .deploy-block { margin-bottom: 28px; }
+
+  .deploy-header {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  }
+
+  .deploy-sub {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+
+  .note {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .note-warn { background: var(--warn-bg); border: 1px solid var(--warn-border); color: var(--warn-text); }
+  .note-info { background: var(--info-bg); border: 1px solid var(--info-border); color: var(--info-text); }
+  .note-success { background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success-text); }
+
+  .note a { color: var(--accent); }
+
+  /* Tech Stack - inline table */
+  .tech-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 14px;
+  }
+
+  .tech-table td {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tech-table tr:last-child td { border-bottom: none; }
+  .tech-table tr:hover { background: #F5F5F5; }
+
+  .tech-table .label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    width: 80px;
+  }
+
+  .tech-table .val { font-weight: 500; }
+
+  /* Config */
+  .config-card {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .config-card p { font-size: 14px; color: var(--text-secondary); }
+  .config-card strong { color: var(--text); }
+  .config-card .sub { font-size: 13px; color: var(--text-dim); margin-top: 8px; }
+
+  /* Contrib */
+  .contrib-list {
+    list-style: none;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .contrib-list li {
+    padding: 14px 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .contrib-list li:last-child { border-bottom: none; }
+  .contrib-list li:hover { background: #F5F5F5; }
+  .contrib-list a { color: var(--accent); text-decoration: none; font-weight: 500; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 48px 0 60px;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 30px; }
+    .feature-list-item { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-bar">C. 瑞士极简风 — Swiss Minimalism</div>
+
+<section class="hero">
+  <div class="hero-top">
+    <div class="mark">S</div>
+    <div class="meta">
+      <span class="name">seavideo</span>
+      <span class="label">星海内部工具 &middot; Beta</span>
+    </div>
+  </div>
+  <h1>AI 漫剧<br>制作工作台</h1>
+  <p class="desc">
+    基于 AI 技术的短剧 / 漫画视频制作工具，支持从小说文本自动生成分镜、角色、场景，并制作成完整视频。
+  </p>
+  <div class="hero-links">
+    <a href="#" class="btn-dark">反馈问题</a>
+    <a href="#" class="btn-light">English</a>
+  </div>
+</section>
+
+<div class="container">
+
+  <div class="alert-bar">
+    <strong>测试版</strong> — 项目处于测试初期阶段，正在快速迭代。欢迎反馈问题和需求，后续会增加大量新功能。
+  </div>
+
+  <section class="section">
+    <div class="section-title">功能特性</div>
+    <div class="feature-list">
+      <div class="feature-list-item">
+        <span class="num">01</span>
+        <h3>AI 剧本分析</h3>
+        <p>自动解析小说，提取角色、场景、剧情</p>
+      </div>
+      <div class="feature-list-item">
+        <span class="num">02</span>
+        <h3>角色 &amp; 场景生成</h3>
+        <p>AI 生成一致性人物和场景图片</p>
+      </div>
+      <div class="feature-list-item">
+        <span class="num">03</span>
+        <h3>分镜视频制作</h3>
+        <p>自动生成分镜头并合成视频</p>
+      </div>
+      <div class="feature-list-item">
+        <span class="num">04</span>
+        <h3>AI 配音</h3>
+        <p>多角色语音合成</p>
+      </div>
+      <div class="feature-list-item">
+        <span class="num">05</span>
+        <h3>多语言支持</h3>
+        <p>中文 / 英文界面，一键切换</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="section-title">快速开始</div>
+    <p style="font-size:14px; color:var(--text-secondary); margin-bottom:20px;">
+      前提条件：安装 <a href="#" style="color:var(--accent); text-decoration:none; font-weight:500;">Docker Desktop</a>
+    </p>
+
+    <div class="deploy-block">
+      <div class="deploy-header">方式一：拉取预构建镜像</div>
+      <p class="deploy-sub">最简单 — 无需克隆仓库</p>
+<pre><span class="c"># 下载 docker-compose.yml</span>
+<span class="k">curl</span> -O https://raw.githubusercontent.com/aspskys/seavideo/main/docker-compose.yml
+
+<span class="c"># 启动所有服务</span>
+<span class="k">docker compose</span> up -d</pre>
+      <div class="note note-warn">
+        测试版版本间数据库不兼容。升级请先运行 <code style="background:rgba(0,0,0,0.05); padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:12px;">docker compose down -v</code> 清除旧数据。
+      </div>
+    </div>
+
+    <div class="deploy-block">
+      <div class="deploy-header">方式二：克隆仓库 + Docker</div>
+      <p class="deploy-sub">完全控制</p>
+<pre><span class="k">git clone</span> https://github.com/aspskys/seavideo.git
+<span class="k">cd</span> seavideo
+<span class="k">docker compose</span> up -d</pre>
+    </div>
+
+    <div class="deploy-block">
+      <div class="deploy-header">方式三：本地开发模式</div>
+      <p class="deploy-sub">开发者</p>
+<pre><span class="k">git clone</span> https://github.com/aspskys/seavideo.git
+<span class="k">cd</span> seavideo && <span class="k">npm install</span>
+<span class="k">docker compose</span> up mysql redis minio -d
+<span class="k">npx prisma</span> db push
+<span class="k">npm run</span> dev</pre>
+    </div>
+
+    <div class="note note-success">
+      访问 <a href="#">http://localhost:13000</a>（Docker）或 <a href="#">http://localhost:3000</a>（开发）开始使用。
+    </div>
+
+    <div class="note note-info">
+      性能提示：安装 Caddy 启用 HTTPS 可解决浏览器并发限制问题。
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="section-title">API 配置</div>
+    <div class="config-card">
+      <p>启动后进入<strong>设置中心</strong>配置 AI 服务的 API Key，内置配置教程。</p>
+      <p class="sub">目前仅推荐官方 API，第三方兼容格式后续持续优化。</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="section-title">技术栈</div>
+    <table class="tech-table">
+      <tr><td class="label">框架</td><td class="val">Next.js 15 + React 19</td></tr>
+      <tr><td class="label">数据库</td><td class="val">MySQL + Prisma ORM</td></tr>
+      <tr><td class="label">队列</td><td class="val">Redis + BullMQ</td></tr>
+      <tr><td class="label">样式</td><td class="val">Tailwind CSS v4</td></tr>
+      <tr><td class="label">认证</td><td class="val">NextAuth.js</td></tr>
+    </table>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="section-title">参与方式</div>
+    <p style="font-size:14px; color:var(--text-secondary); margin-bottom:14px;">星海核心团队维护，欢迎参与：</p>
+    <ul class="contrib-list">
+      <li>提交 <a href="#">Issue</a> 反馈 Bug</li>
+      <li>提交 <a href="#">Issue</a> 提出功能建议</li>
+      <li>提交 Pull Request — 团队会认真审阅每一个 PR</li>
+    </ul>
+  </section>
+
+  <hr class="divider">
+
+  <div class="footer">
+    Made with ♥ by <strong style="color:var(--text-secondary);">seavideo</strong> team
+  </div>
+</div>
+
+</body>
+</html>

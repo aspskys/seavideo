@@ -51,8 +51,9 @@ export default function ProfilePage() {
 
                 {/* 余额卡片 */}
                 <div className="glass-surface-soft rounded-2xl border border-[var(--glass-stroke-base)] p-4">
-                  <div className="text-xs font-medium text-[var(--glass-text-secondary)]">{t('availableBalance')}</div>
-                  <div className="mt-2 text-base font-semibold text-[var(--glass-text-primary)]">{noBillingText}</div>
+                  <div className="text-xs font-medium text-[var(--glass-text-tertiary)]">{t('availableBalance')}</div>
+                  <div className="mt-1 text-2xl font-bold text-[var(--glass-text-primary)] tracking-tight">¥0.00</div>
+                  <div className="mt-1 text-[10px] text-[var(--glass-text-tertiary)]">{noBillingText}</div>
                 </div>
               </div>
 

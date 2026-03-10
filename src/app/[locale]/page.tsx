@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect } from 'react'
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
 import { useRouter } from '@/i18n/navigation'
@@ -25,13 +24,9 @@ export default function Home() {
     return (
       <div className="glass-page min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <Image
-            src="/logo-small.png?v=1"
-            alt="waoowaoo"
-            width={80}
-            height={80}
-            className="animate-pulse"
-          />
+          <span className="text-2xl font-bold bg-gradient-to-r from-[#A78BFA] to-[#22D3EE] bg-clip-text text-transparent animate-pulse">
+            seavideo
+          </span>
         </div>
       </div>
     )
@@ -46,25 +41,25 @@ export default function Home() {
 
       {/* Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_80%_-10%,rgba(138,170,255,0.12),transparent),radial-gradient(900px_500px_at_0%_100%,rgba(148,163,184,0.16),transparent)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_80%_-10%,rgba(124,58,237,0.1),transparent),radial-gradient(900px_500px_at_0%_100%,rgba(6,182,212,0.08),transparent)]"></div>
       </div>
 
       <main className="relative z-10">
         <section className="relative min-h-screen flex items-center justify-center -mt-16 px-4">
           <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
             <div className="text-left space-y-8 animate-slide-up" style={{ animationDuration: '0.8s' }}>
-              <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                <span className="block text-[var(--glass-text-primary)]">
+              <h1 className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                <span className="block text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] bg-gradient-to-r from-[#A78BFA] to-[#22D3EE] bg-clip-text text-transparent">
                   {t('title')}
                 </span>
-                <span className="text-[var(--glass-tone-info-fg)]">
+                <span className="block mt-3 text-3xl md:text-5xl font-extrabold tracking-[-0.02em] leading-[1.2] bg-gradient-to-r from-[#7C3AED] via-[#A78BFA] to-[#7C3AED] bg-[length:200%_auto] animate-gradient-x bg-clip-text text-transparent drop-shadow-[0_2px_12px_rgba(124,58,237,0.25)]">
                   {t('subtitle')}
                 </span>
               </h1>
 
               <div className="flex flex-wrap gap-4 pt-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
                 <Link
-                  href={{ pathname: '/auth/signup' }}
+                  href={{ pathname: '/auth/signin' }}
                   className="glass-btn-base glass-btn-primary px-8 py-4 rounded-xl font-semibold transition-all duration-300"
                 >
                   {t('getStarted')}
@@ -74,7 +69,7 @@ export default function Home() {
 
             <div className="relative h-[600px] hidden lg:flex items-center justify-center animate-scale-in" style={{ animationDuration: '1s' }}>
               <div className="relative w-full max-w-md aspect-square">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle,rgba(148,163,184,0.2),transparent_65%)] rounded-full blur-3xl opacity-70"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle,rgba(124,58,237,0.12),transparent_65%)] rounded-full blur-3xl opacity-70"></div>
                 <div className="absolute top-0 right-10 w-64 h-80 glass-surface rounded-3xl transform rotate-6 animate-float-delayed"></div>
                 <div className="absolute bottom-10 left-10 w-72 h-80 glass-surface-soft rounded-3xl transform -rotate-3 animate-float-slow"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-96 glass-surface-modal rounded-3xl overflow-hidden animate-float">

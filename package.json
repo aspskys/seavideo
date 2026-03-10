@@ -1,6 +1,6 @@
 {
-  "name": "waoowaoo",
-  "version": "0.3.0",
+  "name": "seavideo",
+  "version": "0.1.0",
   "private": true,
   "engines": {
     "node": ">=18.18.0",

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>seavideo README — D. 海洋科技</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #030712;
+    --bg-elevated: #0A1628;
+    --bg-card: #0D1B2A;
+    --border: #1B2B44;
+    --border-hover: #2A3F5F;
+    --text: #E2E8F0;
+    --text-secondary: #8B9DC3;
+    --text-dim: #4A6085;
+    --sea-primary: #0EA5E9;
+    --sea-light: #38BDF8;
+    --sea-glow: rgba(14,165,233,0.15);
+    --teal: #14B8A6;
+    --teal-glow: rgba(20,184,166,0.1);
+    --coral: #FB7185;
+    --amber: #F59E0B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Manrope', 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; }
+
+  .preview-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: linear-gradient(90deg, #0369A1, #0EA5E9, #14B8A6);
+    text-align: center; padding: 10px; font-size: 13px; font-weight: 600; color: #fff;
+  }
+
+  /* Ambient BG */
+  .ambient {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ambient .orb1 {
+    position: absolute;
+    top: 5%;
+    left: 60%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(14,165,233,0.07) 0%, transparent 65%);
+    animation: drift1 20s ease-in-out infinite;
+  }
+
+  .ambient .orb2 {
+    position: absolute;
+    bottom: 20%;
+    right: 70%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 65%);
+    animation: drift2 25s ease-in-out infinite;
+  }
+
+  @keyframes drift1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-40px, 30px); }
+  }
+  @keyframes drift2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -20px); }
+  }
+
+  .content { position: relative; z-index: 1; }
+
+  /* Hero */
+  .hero {
+    padding: 120px 0 48px;
+    text-align: center;
+  }
+
+  .hero-icon {
+    width: 72px; height: 72px;
+    margin: 0 auto 24px;
+    position: relative;
+  }
+
+  .hero-icon .ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--sea-primary);
+    border-right-color: var(--teal);
+    animation: spin 6s linear infinite;
+  }
+
+  .hero-icon .ring2 {
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    border-bottom-color: var(--sea-light);
+    border-left-color: rgba(14,165,233,0.3);
+    animation: spin 4s linear infinite reverse;
+  }
+
+  .hero-icon .core {
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--sea-primary), var(--teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: #fff;
+    box-shadow: 0 0 30px var(--sea-glow);
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .hero h1 {
+    font-family: 'Syne', 'Noto Sans SC', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .hero h1 .sea {
+    background: linear-gradient(90deg, var(--sea-light), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero .sub {
+    font-size: 16px;
+    color: var(--text-secondary);
+    letter-spacing: 0.2em;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .hero .desc {
+    font-size: 15px;
+    color: var(--text-dim);
+    max-width: 520px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+  }
+
+  .hero-btns {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .hero-btns a {
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-sea {
+    background: linear-gradient(135deg, var(--sea-primary), var(--teal));
+    color: #fff;
+    box-shadow: 0 4px 20px var(--sea-glow);
+  }
+  .btn-sea:hover { box-shadow: 0 6px 30px rgba(14,165,233,0.3); transform: translateY(-1px); }
+
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .btn-ghost:hover { border-color: var(--sea-primary); color: var(--sea-light); }
+
+  /* Alert */
+  .alert {
+    margin: 0 auto 40px;
+    max-width: 840px;
+    padding: 14px 18px;
+    background: rgba(245,158,11,0.05);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: #FDE68A;
+    line-height: 1.7;
+  }
+  .alert strong { color: var(--amber); }
+
+  /* Section */
+  .section { padding: 40px 0; }
+
+  .s-label {
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    color: var(--sea-primary);
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  .s-title {
+    font-family: 'Syne', 'Noto Sans SC', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .divider {
+    border: none;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Features — horizontal scroll cards */
+  .feature-scroll {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .feature-scroll {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .f-card {
+    padding: 20px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .f-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  .f-card .line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+  }
+
+  .f-card:nth-child(1) .line { background: linear-gradient(90deg, var(--sea-primary), var(--sea-light)); }
+  .f-card:nth-child(2) .line { background: linear-gradient(90deg, var(--teal), #34D399); }
+  .f-card:nth-child(3) .line { background: linear-gradient(90deg, var(--sea-light), var(--teal)); }
+  .f-card:nth-child(4) .line { background: linear-gradient(90deg, var(--coral), var(--amber)); }
+  .f-card:nth-child(5) .line { background: linear-gradient(90deg, var(--amber), var(--sea-primary)); }
+
+  .f-card h3 {
+    font-family: 'Syne', 'Noto Sans SC', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .f-card p {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* Deploy Steps */
+  .step {
+    margin-bottom: 24px;
+    padding-left: 28px;
+    position: relative;
+  }
+
+  .step::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 28px;
+    bottom: -16px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .step:last-of-type::before { display: none; }
+
+  .step .dot {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 2px solid var(--sea-primary);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step .dot::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--sea-primary);
+  }
+
+  .step-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+
+  pre {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    overflow-x: auto;
+    margin-bottom: 10px;
+  }
+
+  pre .c { color: var(--text-dim); }
+  pre .k { color: var(--sea-light); }
+
+  .note {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .note-warn {
+    background: rgba(245,158,11,0.05);
+    border: 1px solid rgba(245,158,11,0.15);
+    color: #FDE68A;
+  }
+
+  .note-success {
+    background: rgba(20,184,166,0.06);
+    border: 1px solid rgba(20,184,166,0.15);
+    color: #5EEAD4;
+  }
+  .note-success a { color: var(--sea-light); }
+
+  .note-info {
+    background: rgba(14,165,233,0.06);
+    border: 1px solid rgba(14,165,233,0.12);
+    color: #7DD3FC;
+  }
+  .note-info strong { color: var(--sea-light); }
+
+  /* Tech Stack */
+  .tech-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tech-tag {
+    padding: 8px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tech-tag .k { color: var(--text-dim); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tech-tag .v { font-weight: 500; color: var(--text); }
+
+  /* Config */
+  .cfg {
+    padding: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .cfg p { font-size: 14px; color: var(--text-secondary); }
+  .cfg strong { color: var(--text); }
+  .cfg .dim { font-size: 13px; color: var(--text-dim); margin-top: 8px; }
+
+  /* Contrib */
+  .c-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .c-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+  }
+  .c-list li:hover { border-color: var(--border-hover); }
+
+  .c-list .marker {
+    width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0;
+  }
+
+  .c-list a { color: var(--sea-light); text-decoration: none; }
+  .c-list a:hover { text-decoration: underline; }
+
+  .footer {
+    text-align: center;
+    padding: 48px 0 60px;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  .footer .heart {
+    background: linear-gradient(90deg, var(--sea-primary), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 34px; }
+    .feature-scroll { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-bar">D. 海洋科技风 — Ocean Tech</div>
+
+<div class="ambient">
+  <div class="orb1"></div>
+  <div class="orb2"></div>
+</div>
+
+<div class="content">
+
+<section class="hero">
+  <div class="hero-icon">
+    <div class="ring"></div>
+    <div class="ring2"></div>
+    <div class="core">S</div>
+  </div>
+  <h1><span class="sea">seavideo</span></h1>
+  <p class="sub">A I &ensp; 漫 剧 制 作 工 作 台</p>
+  <p class="desc">
+    星海内部 AI 创作工具 — 从小说文本自动生成分镜、角色、场景，制作成完整视频
+  </p>
+  <div class="hero-btns">
+    <a href="#" class="btn-sea">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      反馈问题
+    </a>
+    <a href="#" class="btn-ghost">English</a>
+  </div>
+</section>
+
+<div class="container">
+
+  <div class="alert">
+    <strong>Beta</strong> — 项目处于测试初期，正在快速迭代。欢迎反馈问题和需求，后续会增加大量新功能以及优化效果。
+  </div>
+
+  <section class="section">
+    <div class="s-label">// FEATURES</div>
+    <div class="s-title">功能特性</div>
+    <div class="feature-scroll">
+      <div class="f-card">
+        <h3>AI 剧本分析</h3>
+        <p>自动解析小说，提取角色、场景、剧情</p>
+        <div class="line"></div>
+      </div>
+      <div class="f-card">
+        <h3>角色 &amp; 场景</h3>
+        <p>AI 生成一致性人物和场景图片</p>
+        <div class="line"></div>
+      </div>
+      <div class="f-card">
+        <h3>分镜视频</h3>
+        <p>自动生成分镜头并合成视频</p>
+        <div class="line"></div>
+      </div>
+      <div class="f-card">
+        <h3>AI 配音</h3>
+        <p>多角色语音合成</p>
+        <div class="line"></div>
+      </div>
+      <div class="f-card">
+        <h3>多语言</h3>
+        <p>中文 / 英文界面</p>
+        <div class="line"></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="s-label">// QUICK START</div>
+    <div class="s-title">快速开始</div>
+    <p style="font-size:14px; color:var(--text-dim); margin-bottom:20px;">
+      前提条件：安装 <a href="#" style="color:var(--sea-light); text-decoration:none;">Docker Desktop</a>
+    </p>
+
+    <div class="step">
+      <div class="dot"></div>
+      <div class="step-title">拉取预构建镜像</div>
+      <p class="step-desc">最简单 — 无需克隆仓库，下载即用</p>
+<pre><span class="c"># 下载配置并启动</span>
+<span class="k">curl</span> -O https://raw.githubusercontent.com/aspskys/seavideo/main/docker-compose.yml
+<span class="k">docker compose</span> up -d</pre>
+      <div class="note note-warn">
+        测试版版本间不兼容，升级需先 <code style="font-family:'Fira Code',monospace; font-size:11px; background:rgba(0,0,0,0.3); padding:1px 5px; border-radius:3px;">docker compose down -v</code>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="dot"></div>
+      <div class="step-title">克隆仓库 + Docker</div>
+      <p class="step-desc">完全控制 — 本地构建镜像</p>
+<pre><span class="k">git clone</span> https://github.com/aspskys/seavideo.git
+<span class="k">cd</span> seavideo && <span class="k">docker compose</span> up -d</pre>
+    </div>
+
+    <div class="step">
+      <div class="dot"></div>
+      <div class="step-title">本地开发模式</div>
+      <p class="step-desc">开发者 — 运行开发服务器</p>
+<pre><span class="k">git clone</span> https://github.com/aspskys/seavideo.git
+<span class="k">cd</span> seavideo && <span class="k">npm install</span>
+<span class="k">docker compose</span> up mysql redis minio -d
+<span class="k">npx prisma</span> db push && <span class="k">npm run</span> dev</pre>
+    </div>
+
+    <div class="note note-success">
+      访问 <a href="#">http://localhost:13000</a>（Docker）或 <a href="#">http://localhost:3000</a>（开发模式）开始使用。自动初始化数据库。
+    </div>
+
+    <div class="note note-info">
+      <strong>性能提示</strong> — HTTP 并发受限时，安装 Caddy 启用 HTTPS 访问 https://localhost:1443
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="s-label">// CONFIG</div>
+    <div class="s-title">API 配置</div>
+    <div class="cfg">
+      <p>启动后进入<strong>设置中心</strong>配置 AI 服务的 API Key，内置配置教程。</p>
+      <p class="dim">目前仅推荐使用各服务商官方 API，第三方兼容格式后续持续优化。</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="s-label">// STACK</div>
+    <div class="s-title">技术栈</div>
+    <div class="tech-row">
+      <span class="tech-tag"><span class="k">框架</span><span class="v">Next.js 15 + React 19</span></span>
+      <span class="tech-tag"><span class="k">数据库</span><span class="v">MySQL + Prisma</span></span>
+      <span class="tech-tag"><span class="k">队列</span><span class="v">Redis + BullMQ</span></span>
+      <span class="tech-tag"><span class="k">样式</span><span class="v">Tailwind CSS v4</span></span>
+      <span class="tech-tag"><span class="k">认证</span><span class="v">NextAuth.js</span></span>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="s-label">// CONTRIBUTE</div>
+    <div class="s-title">参与方式</div>
+    <p style="font-size:14px; color:var(--text-dim); margin-bottom:14px;">星海核心团队维护，欢迎参与：</p>
+    <ul class="c-list">
+      <li><span class="marker" style="background:var(--coral);"></span>提交 <a href="#">Issue</a> 反馈 Bug</li>
+      <li><span class="marker" style="background:var(--amber);"></span>提交 <a href="#">Issue</a> 提出功能建议</li>
+      <li><span class="marker" style="background:var(--teal);"></span>提交 Pull Request — 团队会认真审阅每一个 PR</li>
+    </ul>
+  </section>
+
+  <hr class="divider">
+
+  <div class="footer">
+    Made with <span class="heart">&hearts;</span> by <strong style="color:var(--text-secondary);">seavideo</strong> team
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>

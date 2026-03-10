@@ -1,9 +1,9 @@
 {
-  "title": "waoowaoo",
-  "subtitle": "AI影视Studio",
+  "title": "seavideo",
+  "subtitle": "AI 漫剧制作工作台",
   "enterWorkspace": "进入工作区",
   "loading": "加载中...",
-  "getStarted": "立即体验",
+  "getStarted": "进入工作台",
   "learnMore": "了解更多",
   "features": {
     "title": "释放无限创造力",
@@ -22,6 +22,6 @@
     }
   },
   "footer": {
-    "copyright": "2026 waoowaoo AI. All rights reserved."
+    "copyright": "2026 seavideo AI. All rights reserved."
   }
 }

@@ -1,27 +1,13 @@
-<p align="center">
-  <a href="https://www.waoowaoo.com/">
-    <img src="images/cta-banner.png" alt="🚀 探索 AI 影视的下一代创作流 | 立即加入 waoowaoo 在线网页版内测候补" width="800">
-  </a>
-</p>
 
-<p align="center">
-  <img src="public/banner.png" alt="waoowaoo" width="600">
-</p>
 
-<h1 align="center">waoowaoo AI 影视 Studio</h1>
+# seavideo — 星海 AI 漫剧制作工作台
 
-<p align="center">
-  一款基于 AI 技术的短剧/漫画视频制作工具，支持从小说文本自动生成分镜、角色、场景，并制作成完整视频。
-</p>
+星海内部使用的 AI 漫剧制作工具，基于 AI 技术支持从小说文本自动生成分镜、角色、场景，并制作成完整视频。
 
-<p align="center">
-  <a href="README_en.md">English</a> · <a href="https://www.waoowaoo.com/">加入内测候补</a> · <a href="https://github.com/saturndec/waoowaoo/issues">反馈问题</a>
-</p>
+[English](README_en.md) · [反馈问题](https://github.com/aspskys/seavideo/issues)
 
 > [!IMPORTANT]
-> ⚠️ **测试版声明**：本项目目前处于测试初期阶段，由于暂时只有我一个人开发，存在部分 bug 和不完善之处。我们正在快速迭代更新中，**欢迎进群反馈问题和需求，及时关注项目更新！目前更新会非常频繁，后续会增加大量新功能以及优化效果，我们的目标是成为行业最强AI工具！**
-
-<img src="images/dab6b4105e3260f37ba2d5f536dce259.jpg" width="30%">
+> ⚠️ **测试版声明**：本项目目前处于测试初期阶段，存在部分 bug 和不完善之处。正在快速迭代更新中，**欢迎反馈问题和需求，及时关注项目更新！目前更新会非常频繁，后续会增加大量新功能以及优化效果。**
 
 ---
 
@@ -45,7 +31,7 @@
 
 ```bash
 # 下载 docker-compose.yml
-curl -O https://raw.githubusercontent.com/saturndec/waoowaoo/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/aspskys/seavideo/main/docker-compose.yml
 
 # 启动所有服务
 docker compose up -d
@@ -55,8 +41,8 @@ docker compose up -d
 
 ```bash
 docker compose down -v
-docker rmi ghcr.io/saturndec/waoowaoo:latest
-curl -O https://raw.githubusercontent.com/saturndec/waoowaoo/main/docker-compose.yml
+docker rmi ghcr.io/aspskys/seavideo:latest
+curl -O https://raw.githubusercontent.com/aspskys/seavideo/main/docker-compose.yml
 docker compose up -d
 ```
 
@@ -65,12 +51,13 @@ docker compose up -d
 ### 方式二：克隆仓库 + Docker 构建（完全控制）
 
 ```bash
-git clone https://github.com/saturndec/waoowaoo.git
-cd waoowaoo
+git clone https://github.com/aspskys/seavideo.git
+cd seavideo
 docker compose up -d
 ```
 
 更新版本：
+
 ```bash
 git pull
 docker compose down && docker compose up -d --build
@@ -79,8 +66,8 @@ docker compose down && docker compose up -d --build
 ### 方式三：本地开发模式（开发者）
 
 ```bash
-git clone https://github.com/saturndec/waoowaoo.git
-cd waoowaoo
+git clone https://github.com/aspskys/seavideo.git
+cd seavideo
 npm install
 
 # 只启动基础设施
@@ -101,9 +88,11 @@ npm run dev
 
 > [!TIP]
 > **如果遇到网页卡顿**：HTTP 模式下浏览器可能限制并发连接。可安装 [Caddy](https://caddyserver.com/docs/install) 启用 HTTPS：
+>
 > ```bash
 > caddy run --config Caddyfile
 > ```
+>
 > 然后访问 [https://localhost:1443](https://localhost:1443)
 
 ---
@@ -128,25 +117,18 @@ npm run dev
 
 ## 📦 页面功能预览
 
-![4f7b913264f7f26438c12560340e958c67fa833a](https://github.com/user-attachments/assets/fa0e9c57-9ea0-4df3-893e-b76c4c9d304b)
-![67509361cbe6809d2496a550de5733b9f99a9702](https://github.com/user-attachments/assets/f2fb6a64-5ba8-4896-a064-be0ded213e42)
-![466e13c8fd1fc799d8f588c367ebfa24e1e99bf7](https://github.com/user-attachments/assets/09bbff39-e535-4c67-80a9-69421c3b05ee)
-![c067c197c20b0f1de456357c49cdf0b0973c9b31](https://github.com/user-attachments/assets/688e3147-6e95-43b0-b9e7-dd9af40db8a0)
+ 
 
 ---
 
 ## 🤝 参与方式
 
-本项目由核心团队独立维护。欢迎你通过以下方式参与：
+本项目由星海核心团队维护。欢迎通过以下方式参与：
 
-- 🐛 提交 [Issue](https://github.com/saturndec/waoowaoo/issues) 反馈 Bug
-- 💡 提交 [Issue](https://github.com/saturndec/waoowaoo/issues) 提出功能建议
-- 🔧 提交 Pull Request 供参考 — 我们会认真审阅每一个 PR 的思路，但最终由团队自行实现修复，不会直接合并外部 PR
+- 🐛 提交 [Issue](https://github.com/aspskys/seavideo/issues) 反馈 Bug
+- 💡 提交 [Issue](https://github.com/aspskys/seavideo/issues) 提出功能建议
+- 🔧 提交 Pull Request — 团队会认真审阅每一个 PR
 
 ---
 
-**Made with ❤️ by waoowaoo team**
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=saturndec/waoowaoo&type=date&legend=top-left)](https://www.star-history.com/#saturndec/waoowaoo&type=date&legend=top-left)
+**Made with ❤️ by seavideo team**

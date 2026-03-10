@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>seavideo README — B. 极光玻璃</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.1);
+    --glass-hover: rgba(255,255,255,0.1);
+    --text: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-dim: #64748B;
+    --accent-blue: #38BDF8;
+    --accent-purple: #A78BFA;
+    --accent-pink: #F472B6;
+    --accent-emerald: #34D399;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+    background: #0B1120;
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -20%;
+    right: -10%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, rgba(167,139,250,0.06) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -10%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(244,114,182,0.06) 0%, rgba(52,211,153,0.04) 50%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .container { max-width: 820px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  .preview-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: linear-gradient(135deg, rgba(56,189,248,0.9), rgba(167,139,250,0.9));
+    backdrop-filter: blur(12px);
+    text-align: center; padding: 10px; font-size: 13px; font-weight: 600; color: #fff;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 120px 24px 48px;
+  }
+
+  .logo-mark {
+    width: 64px; height: 64px; margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 700; color: #fff;
+    box-shadow: 0 8px 32px rgba(56,189,248,0.2);
+    position: relative;
+  }
+
+  .logo-mark::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
+    z-index: -1;
+    opacity: 0.4;
+    filter: blur(12px);
+  }
+
+  .hero h1 {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero .tagline {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    margin: 8px 0 12px;
+    letter-spacing: 0.1em;
+  }
+
+  .hero .desc {
+    font-size: 15px;
+    color: var(--text-dim);
+    max-width: 480px;
+    margin: 0 auto 28px;
+  }
+
+  .hero-actions {
+    display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+  }
+
+  .hero-actions a {
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+
+  .btn-glass {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--text);
+  }
+  .btn-glass:hover {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.2);
+    box-shadow: 0 4px 20px rgba(56,189,248,0.1);
+  }
+
+  .btn-accent {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    border: none;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(56,189,248,0.25);
+  }
+  .btn-accent:hover {
+    box-shadow: 0 6px 28px rgba(56,189,248,0.35);
+    transform: translateY(-1px);
+  }
+
+  /* Glass Card */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.25s;
+  }
+
+  .glass:hover {
+    background: var(--glass-hover);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  /* Alert */
+  .alert-glass {
+    margin-bottom: 40px;
+    padding: 16px 20px;
+    background: rgba(251,191,36,0.06);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(251,191,36,0.15);
+    border-radius: 12px;
+    font-size: 14px;
+    color: #FDE68A;
+    line-height: 1.7;
+  }
+  .alert-glass strong { color: #FCD34D; }
+
+  /* Section */
+  .section { padding: 40px 0; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-header .badge {
+    padding: 4px 12px;
+    background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(167,139,250,0.12));
+    border: 1px solid rgba(56,189,248,0.15);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-blue);
+  }
+
+  .section-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  }
+
+  /* Features */
+  .feature-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+  }
+
+  .feature-item {
+    padding: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .feature-item:hover { border-color: rgba(255,255,255,0.15); }
+  .feature-item:hover::before { opacity: 1; }
+
+  .feature-item:nth-child(1)::before { background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); }
+  .feature-item:nth-child(2)::before { background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink)); }
+  .feature-item:nth-child(3)::before { background: linear-gradient(90deg, var(--accent-emerald), var(--accent-blue)); }
+  .feature-item:nth-child(4)::before { background: linear-gradient(90deg, var(--accent-pink), #FB923C); }
+  .feature-item:nth-child(5)::before { background: linear-gradient(90deg, #FB923C, var(--accent-emerald)); }
+
+  .feature-item h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .feature-item p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* Deployment Sections */
+  .deploy-group { margin-bottom: 20px; }
+
+  .deploy-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+    font-size: 14px; font-weight: 600;
+  }
+
+  .deploy-label .num {
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    font-size: 12px; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    color: #fff;
+  }
+
+  .deploy-desc {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 10px;
+  }
+
+  pre {
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    overflow-x: auto;
+    margin-bottom: 12px;
+  }
+
+  pre .c { color: var(--text-dim); }
+  pre .k { color: var(--accent-blue); }
+
+  .note-box {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .note-warn {
+    background: rgba(251,191,36,0.06);
+    border: 1px solid rgba(251,191,36,0.12);
+    color: #FDE68A;
+  }
+  .note-warn strong { color: #FCD34D; }
+
+  .note-info {
+    background: rgba(56,189,248,0.06);
+    border: 1px solid rgba(56,189,248,0.12);
+    color: #7DD3FC;
+  }
+  .note-info strong { color: var(--accent-blue); }
+
+  .note-success {
+    background: rgba(52,211,153,0.06);
+    border: 1px solid rgba(52,211,153,0.15);
+    color: #6EE7B7;
+  }
+  .note-success a { color: var(--accent-blue); }
+
+  /* Tech Stack */
+  .tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tech-pill {
+    padding: 8px 16px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .tech-pill .label { color: var(--text-dim); font-size: 11px; }
+  .tech-pill .val { font-weight: 500; color: var(--text); }
+
+  /* Config & Contrib */
+  .config-card {
+    padding: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+  }
+
+  .config-card p { color: var(--text-secondary); font-size: 14px; }
+  .config-card strong { color: var(--text); }
+  .config-card .dim { color: var(--text-dim); font-size: 13px; margin-top: 8px; }
+
+  .contrib-items {
+    display: flex; flex-direction: column; gap: 8px; list-style: none;
+  }
+
+  .contrib-items li {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+  }
+  .contrib-items li:hover { border-color: rgba(255,255,255,0.15); }
+
+  .contrib-items .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .contrib-items a { color: var(--accent-blue); text-decoration: none; }
+  .contrib-items a:hover { text-decoration: underline; }
+
+  .footer {
+    text-align: center;
+    padding: 48px 0 60px;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  .footer .heart {
+    background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 32px; }
+    .feature-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-bar">B. 极光玻璃风 — Aurora Glassmorphism</div>
+
+<section class="hero">
+  <div class="logo-mark">S</div>
+  <h1><span class="gradient-text">seavideo</span></h1>
+  <p class="tagline">AI 漫 剧 制 作 工 作 台</p>
+  <p class="desc">星海内部 AI 创作工具 — 从小说文本自动生成分镜、角色、场景，制作成完整视频</p>
+  <div class="hero-actions">
+    <a href="#" class="btn-accent">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      反馈问题
+    </a>
+    <a href="#" class="btn-glass">English</a>
+  </div>
+</section>
+
+<div class="container">
+
+  <div class="alert-glass">
+    <strong>Beta</strong> — 项目处于测试初期阶段，正在快速迭代更新中。欢迎反馈问题和需求，后续会增加大量新功能以及优化效果。
+  </div>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="badge">Core</span>
+      <h2>功能特性</h2>
+    </div>
+    <div class="feature-row">
+      <div class="feature-item">
+        <h3>AI 剧本分析</h3>
+        <p>自动解析小说，提取角色、场景、剧情</p>
+      </div>
+      <div class="feature-item">
+        <h3>角色 &amp; 场景生成</h3>
+        <p>AI 生成一致性人物和场景图片</p>
+      </div>
+      <div class="feature-item">
+        <h3>分镜视频制作</h3>
+        <p>自动生成分镜头并合成视频</p>
+      </div>
+      <div class="feature-item">
+        <h3>AI 配音</h3>
+        <p>多角色语音合成</p>
+      </div>
+      <div class="feature-item">
+        <h3>多语言支持</h3>
+        <p>中文 / 英文界面，一键切换</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="section-header">
+      <span class="badge">Setup</span>
+      <h2>快速开始</h2>
+    </div>
+    <p style="font-size:14px; color:var(--text-dim); margin-bottom:20px;">
+      前提条件：安装 <a href="https://docs.docker.com/get-docker/" style="color:var(--accent-blue); text-decoration:none;">Docker Desktop</a>
+    </p>
+
+    <div class="deploy-group">
+      <div class="deploy-label"><span class="num">1</span> 拉取预构建镜像</div>
+      <p class="deploy-desc">最简单 — 无需克隆仓库，下载即用</p>
+<pre><span class="c"># 下载 docker-compose.yml</span>
+<span class="k">curl</span> -O https://raw.githubusercontent.com/aspskys/seavideo/main/docker-compose.yml
+
+<span class="c"># 启动所有服务</span>
+<span class="k">docker compose</span> up -d</pre>
+      <div class="note-box note-warn">
+        <strong>升级注意</strong> — 测试版版本间数据库不兼容，升级前请先清除旧数据。
+      </div>
+<pre><span class="k">docker compose</span> down -v
+<span class="k">docker rmi</span> ghcr.io/aspskys/seavideo:latest
+<span class="k">curl</span> -O https://raw.githubusercontent.com/aspskys/seavideo/main/docker-compose.yml
+<span class="k">docker compose</span> up -d</pre>
+    </div>
+
+    <div class="deploy-group">
+      <div class="deploy-label"><span class="num">2</span> 克隆仓库 + Docker</div>
+      <p class="deploy-desc">完全控制 — 本地构建镜像</p>
+<pre><span class="k">git clone</span> https://github.com/aspskys/seavideo.git
+<span class="k">cd</span> seavideo
+<span class="k">docker compose</span> up -d</pre>
+    </div>
+
+    <div class="deploy-group">
+      <div class="deploy-label"><span class="num">3</span> 本地开发模式</div>
+      <p class="deploy-desc">开发者 — 运行开发服务器</p>
+<pre><span class="k">git clone</span> https://github.com/aspskys/seavideo.git
+<span class="k">cd</span> seavideo && <span class="k">npm install</span>
+
+<span class="c"># 只启动基础设施</span>
+<span class="k">docker compose</span> up mysql redis minio -d
+
+<span class="c"># 运行数据库迁移 + 启动开发服务器</span>
+<span class="k">npx prisma</span> db push
+<span class="k">npm run</span> dev</pre>
+    </div>
+
+    <div class="note-box note-success">
+      访问 <a href="#">http://localhost:13000</a>（方式 1、2）或 <a href="#">http://localhost:3000</a>（方式 3）开始使用。首次启动自动完成数据库初始化。
+    </div>
+
+    <div class="note-box note-info">
+      <strong>性能提示</strong> — HTTP 下浏览器可能限制并发。安装 Caddy 启用 HTTPS 后访问 https://localhost:1443
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="section-header">
+      <span class="badge">Config</span>
+      <h2>API 配置</h2>
+    </div>
+    <div class="config-card">
+      <p>启动后进入<strong>设置中心</strong>配置 AI 服务的 API Key，内置配置教程。</p>
+      <p class="dim">目前仅推荐使用各服务商官方 API，第三方兼容格式尚不完善。</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="section-header">
+      <span class="badge">Stack</span>
+      <h2>技术栈</h2>
+    </div>
+    <div class="tech-pills">
+      <span class="tech-pill"><span class="label">框架</span><span class="val">Next.js 15 + React 19</span></span>
+      <span class="tech-pill"><span class="label">数据库</span><span class="val">MySQL + Prisma</span></span>
+      <span class="tech-pill"><span class="label">队列</span><span class="val">Redis + BullMQ</span></span>
+      <span class="tech-pill"><span class="label">样式</span><span class="val">Tailwind CSS v4</span></span>
+      <span class="tech-pill"><span class="label">认证</span><span class="val">NextAuth.js</span></span>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="section-header">
+      <span class="badge">Team</span>
+      <h2>参与方式</h2>
+    </div>
+    <p style="font-size:14px; color:var(--text-dim); margin-bottom:14px;">星海核心团队维护，欢迎参与：</p>
+    <ul class="contrib-items">
+      <li><span class="dot" style="background:#EF4444;"></span>提交 <a href="#">Issue</a> 反馈 Bug</li>
+      <li><span class="dot" style="background:#FBBF24;"></span>提交 <a href="#">Issue</a> 提出功能建议</li>
+      <li><span class="dot" style="background:#22C55E;"></span>提交 Pull Request — 团队会认真审阅每一个 PR</li>
+    </ul>
+  </section>
+
+  <hr class="divider">
+
+  <div class="footer">
+    Made with <span class="heart">&hearts;</span> by <strong style="color:var(--text-secondary);">seavideo</strong> team
+  </div>
+</div>
+
+</body>
+</html>
