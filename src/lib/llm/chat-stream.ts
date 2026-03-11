@@ -39,8 +39,9 @@ import { withStreamChunkTimeout } from './stream-timeout'
 import { shouldUseOpenAIReasoningProviderOptions } from './reasoning-capability'
 import { completeBailianLlm } from '@/lib/providers/bailian'
 import { completeSiliconFlowLlm } from '@/lib/providers/siliconflow'
+import { completeSeaArtLlm, getSeaArtConfig } from '@/lib/providers/seaart'
 
-const OFFICIAL_ONLY_PROVIDER_KEYS = new Set(['bailian', 'siliconflow'])
+const OFFICIAL_ONLY_PROVIDER_KEYS = new Set(['bailian', 'siliconflow', 'seaart'])
 
 type GoogleModelClient = {
   generateContentStream?: (params: unknown) => Promise<unknown>
@@ -371,6 +372,51 @@ export async function chatCompletionStream(
       return completion
     }
 
+    if (providerKey === 'seaart') {
+      emitStreamStage(callbacks, streamStep, 'streaming', providerKey)
+      const seaartConfig = await getSeaArtConfig(userId)
+      const completion = await completeSeaArtLlm({
+        modelId: resolvedModelId,
+        messages,
+        config: seaartConfig,
+        temperature: options.temperature ?? 0.7,
+      })
+      const completionParts = getCompletionParts(completion)
+      let seq = 1
+      if (completionParts.reasoning) {
+        emitStreamChunk(callbacks, streamStep, {
+          kind: 'reasoning',
+          delta: completionParts.reasoning,
+          seq,
+          lane: 'reasoning',
+        })
+        seq += 1
+      }
+      if (completionParts.text) {
+        emitStreamChunk(callbacks, streamStep, {
+          kind: 'text',
+          delta: completionParts.text,
+          seq,
+          lane: 'main',
+        })
+      }
+      logLlmRawOutput({
+        userId,
+        projectId,
+        provider: providerKey,
+        modelId: resolvedModelId,
+        modelKey: selection.modelKey,
+        stream: true,
+        action: options.action,
+        text: completionParts.text,
+        reasoning: completionParts.reasoning,
+        usage: completionUsageSummary(completion),
+      })
+      recordCompletionUsage(resolvedModelId, completion)
+      emitStreamStage(callbacks, streamStep, 'completed', providerKey)
+      callbacks?.onComplete?.(completionParts.text, streamStep)
+      return completion
+    }
 
     if (providerKey === 'ark') {
       const { arkResponsesStream, convertChatMessagesToArkInput, buildArkThinkingParam } = await import('@/lib/ark-llm')

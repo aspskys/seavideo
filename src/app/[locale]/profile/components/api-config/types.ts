@@ -90,6 +90,15 @@ type PresetModel = Omit<CustomModel, 'enabled' | 'modelKey' | 'price'>
 
 // 预设模型
 export const PRESET_MODELS: PresetModel[] = [
+    // SeaArt 内部文本模型
+    { modelId: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', type: 'llm', provider: 'seaart' },
+    { modelId: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', type: 'llm', provider: 'seaart' },
+    { modelId: 'gemini-3-flash-preview', name: 'Gemini 3 Flash', type: 'llm', provider: 'seaart' },
+    { modelId: 'gemini-3-pro-preview', name: 'Gemini 3 Pro', type: 'llm', provider: 'seaart' },
+    { modelId: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', type: 'llm', provider: 'seaart' },
+    // SeaArt 内部视频模型
+    { modelId: 'microsoft_sora2', name: 'Microsoft Sora2', type: 'video', provider: 'seaart' },
+    { modelId: 'alibaba_wanx26_i2v', name: 'Alibaba Wanx2.6 I2V', type: 'video', provider: 'seaart' },
     // 文本模型
     { modelId: 'google/gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', type: 'llm', provider: 'openrouter' },
     { modelId: 'google/gemini-3-pro-preview', name: 'Gemini 3 Pro', type: 'llm', provider: 'openrouter' },
@@ -198,6 +207,7 @@ export function isPresetComingSoonModelKey(modelKey: string): boolean {
 
 // 预设提供商（API Key 唯一归属于 provider id）
 export const PRESET_PROVIDERS: Omit<Provider, 'apiKey' | 'hasApiKey'>[] = [
+    { id: 'seaart', name: 'SeaArt Internal' },
     { id: 'ark', name: 'Volcengine Ark' },
     { id: 'google', name: 'Google AI Studio' },
     { id: 'bailian', name: 'Alibaba Bailian' },
@@ -208,6 +218,7 @@ export const PRESET_PROVIDERS: Omit<Provider, 'apiKey' | 'hasApiKey'>[] = [
 ]
 
 const ZH_PROVIDER_NAME_MAP: Record<string, string> = {
+    seaart: '星海内部网关',
     ark: '火山引擎 Ark',
     minimax: '海螺 MiniMax',
     vidu: '生数科技 Vidu',
@@ -298,6 +309,14 @@ export interface ProviderTutorial {
 // 厂商开通教程配置
 // 注意: text 字段使用 i18n key, 翻译在 apiConfig.tutorials 下
 export const PROVIDER_TUTORIALS: ProviderTutorial[] = [
+    {
+        providerId: 'seaart',
+        steps: [
+            {
+                text: 'seaart_step1'
+            }
+        ]
+    },
     {
         providerId: 'ark',
         steps: [

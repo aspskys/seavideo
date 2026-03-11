@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { AppIcon } from '@/components/ui/icons'
 import { INTERNAL_API_CONFIG, type InternalApiSettings } from './internal-api/config'
@@ -8,67 +8,130 @@ import { AuthSection } from './internal-api/AuthSection'
 import { EndpointsSection } from './internal-api/EndpointsSection'
 import { GeminiModelsSection } from './internal-api/GeminiModelsSection'
 import { VideoModelsSection } from './internal-api/VideoModelsSection'
-
-function loadSettings(): InternalApiSettings {
-  if (typeof window === 'undefined') return INTERNAL_API_CONFIG.defaults
-  try {
-    const raw = localStorage.getItem('seavideo-internal-api')
-    if (raw) return JSON.parse(raw)
-  } catch { /* ignore */ }
-  return INTERNAL_API_CONFIG.defaults
-}
-
-function saveSettings(settings: InternalApiSettings) {
-  localStorage.setItem('seavideo-internal-api', JSON.stringify(settings))
-}
+import { apiFetch } from '@/lib/api-fetch'
 
 export default function InternalApiTab() {
   const t = useTranslations('internalApi')
-  const [settings, setSettings] = useState<InternalApiSettings>(loadSettings)
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
+  const [settings, setSettings] = useState<InternalApiSettings>(INTERNAL_API_CONFIG.defaults)
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'failed'>('idle')
+  const [testResults, setTestResults] = useState<{ step: string; status: string; message: string; detail?: string }[]>([])
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    apiFetch('/api/internal-api/sync')
+      .then(res => res.json())
+      .then(data => {
+        if (data.configured && data.config) {
+          const serverConfig = data.config
+          const localRaw = localStorage.getItem('seavideo-internal-api')
+          let local: InternalApiSettings | null = null
+          try { if (localRaw) local = JSON.parse(localRaw) } catch { /* ignore */ }
+
+          if (local?.apiKey && !local.apiKey.includes('...')) {
+            setSettings(local)
+          } else {
+            setSettings(prev => ({
+              ...prev,
+              projectCode: serverConfig.projectCode || prev.projectCode,
+              activeLlmEndpoint: serverConfig.activeLlmEndpoint || prev.activeLlmEndpoint,
+              activeMultimodalEndpoint: serverConfig.activeMultimodalEndpoint || prev.activeMultimodalEndpoint,
+              geminiModels: serverConfig.geminiModels || prev.geminiModels,
+            }))
+          }
+        } else {
+          const localRaw = localStorage.getItem('seavideo-internal-api')
+          if (localRaw) {
+            try { setSettings(JSON.parse(localRaw)) } catch { /* ignore */ }
+          }
+        }
+        setLoaded(true)
+      })
+      .catch(() => {
+        const localRaw = localStorage.getItem('seavideo-internal-api')
+        if (localRaw) {
+          try { setSettings(JSON.parse(localRaw)) } catch { /* ignore */ }
+        }
+        setLoaded(true)
+      })
+  }, [])
 
   const updateSettings = useCallback((patch: Partial<InternalApiSettings>) => {
     setSettings(prev => ({ ...prev, ...patch }))
     setSaveStatus('idle')
   }, [])
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     setSaveStatus('saving')
-    saveSettings(settings)
-    setTimeout(() => setSaveStatus('saved'), 300)
+    localStorage.setItem('seavideo-internal-api', JSON.stringify(settings))
+
+    try {
+      const res = await apiFetch('/api/internal-api/sync', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSaveStatus('saved')
+      } else {
+        setSaveStatus('error')
+      }
+    } catch {
+      setSaveStatus('error')
+    }
   }, [settings])
 
   const handleTest = useCallback(async () => {
     setTestStatus('testing')
-    try {
-      const endpoint = settings.activeLlmEndpoint === 'dev'
-        ? INTERNAL_API_CONFIG.endpoints.llm.dev
-        : settings.activeLlmEndpoint === 'prodInternal'
-          ? INTERNAL_API_CONFIG.endpoints.llm.prodInternal
-          : INTERNAL_API_CONFIG.endpoints.llm.prodExternal
+    setTestResults([])
 
-      const res = await fetch(`${endpoint}/v1/models`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${settings.apiKey}`,
-          'X-Project': settings.projectCode,
-        },
-        signal: AbortSignal.timeout(10000),
+    const endpoint = settings.activeLlmEndpoint === 'dev'
+      ? INTERNAL_API_CONFIG.endpoints.llm.dev
+      : settings.activeLlmEndpoint === 'prodInternal'
+        ? INTERNAL_API_CONFIG.endpoints.llm.prodInternal
+        : INTERNAL_API_CONFIG.endpoints.llm.prodExternal
+
+    try {
+      const res = await apiFetch('/api/internal-api/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          apiKey: settings.apiKey,
+          projectCode: settings.projectCode,
+          endpoint,
+        }),
       })
-      setTestStatus(res.ok ? 'success' : 'failed')
+      const data = await res.json()
+      setTestResults(data.results || [])
+      setTestStatus(data.success ? 'success' : 'failed')
     } catch {
+      setTestResults([{ step: 'network', status: 'fail', message: 'Failed to reach test API' }])
       setTestStatus('failed')
     }
-    setTimeout(() => setTestStatus('idle'), 3000)
   }, [settings])
 
-  const handleReset = useCallback(() => {
+  const handleReset = useCallback(async () => {
     const defaults = INTERNAL_API_CONFIG.defaults
     setSettings(defaults)
-    saveSettings(defaults)
+    localStorage.setItem('seavideo-internal-api', JSON.stringify(defaults))
+    try {
+      await apiFetch('/api/internal-api/sync', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(defaults),
+      })
+    } catch { /* ignore */ }
     setSaveStatus('saved')
   }, [])
+
+  if (!loaded) {
+    return (
+      <div className="flex h-full items-center justify-center p-6 text-[var(--glass-text-tertiary)]">
+        {t('testing')}
+      </div>
+    )
+  }
 
   return (
     <div className="flex h-full flex-col">
@@ -82,27 +145,37 @@ export default function InternalApiTab() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {testStatus !== 'idle' && (
-            <span className={`text-xs px-2.5 py-1 rounded-lg ${
-              testStatus === 'testing' ? 'bg-blue-500/10 text-blue-500' :
-              testStatus === 'success' ? 'bg-green-500/10 text-green-500' :
-              'bg-red-500/10 text-red-500'
-            }`}>
-              {testStatus === 'testing' && <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent mr-1.5 align-middle" />}
-              {t(testStatus === 'testing' ? 'testing' : testStatus === 'success' ? 'testSuccess' : 'testFailed')}
-            </span>
-          )}
-          <button onClick={handleTest} className="glass-btn-base glass-btn-secondary px-3 py-1.5 text-xs">
-            {t('testConnection')}
+          <button onClick={handleTest} disabled={testStatus === 'testing'} className="glass-btn-base glass-btn-secondary px-3 py-1.5 text-xs disabled:opacity-50">
+            {testStatus === 'testing' ? t('testing') : t('testConnection')}
           </button>
           <button onClick={handleReset} className="glass-btn-base glass-btn-secondary px-3 py-1.5 text-xs">
             {t('reset')}
           </button>
-          <button onClick={handleSave} className="glass-btn-base glass-btn-primary px-3 py-1.5 text-xs">
-            {saveStatus === 'saving' ? t('saving') : saveStatus === 'saved' ? t('saved') : t('save')}
+          <button onClick={handleSave} disabled={saveStatus === 'saving'} className="glass-btn-base glass-btn-primary px-3 py-1.5 text-xs disabled:opacity-50">
+            {saveStatus === 'saving' ? t('saving') : saveStatus === 'saved' ? t('saved') : saveStatus === 'error' ? t('testFailed') : t('save')}
           </button>
         </div>
       </div>
+
+      {/* Test Results Banner */}
+      {testResults.length > 0 && (
+        <div className={`mx-6 mt-4 rounded-xl border p-3 space-y-2 ${
+          testStatus === 'success' ? 'border-green-500/30 bg-green-500/5' : 'border-red-500/30 bg-red-500/5'
+        }`}>
+          {testResults.map((r) => (
+            <div key={r.step} className="flex items-center gap-2 text-xs">
+              {r.status === 'pass' ? (
+                <AppIcon name="check" className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+              ) : (
+                <AppIcon name="close" className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
+              )}
+              <span className="font-medium text-[var(--glass-text-primary)]">{r.step}</span>
+              <span className="text-[var(--glass-text-secondary)]">{r.message}</span>
+              {r.detail && <span className="text-[var(--glass-text-tertiary)] text-[10px] truncate max-w-xs">{r.detail}</span>}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto">

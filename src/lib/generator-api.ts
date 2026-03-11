@@ -20,8 +20,9 @@ import {
 } from './model-gateway'
 import { generateBailianAudio, generateBailianImage, generateBailianVideo } from './providers/bailian'
 import { generateSiliconFlowAudio, generateSiliconFlowImage, generateSiliconFlowVideo } from './providers/siliconflow'
+import { generateSeaArtVideo, getSeaArtConfig } from './providers/seaart'
 
-const OFFICIAL_ONLY_PROVIDER_KEYS = new Set(['bailian', 'siliconflow'])
+const OFFICIAL_ONLY_PROVIDER_KEYS = new Set(['bailian', 'siliconflow', 'seaart'])
 
 /**
  * 将 aspectRatio 映射为 OpenAI 兼容的 size
@@ -219,6 +220,18 @@ export async function generateVideo(
                 modelKey: selection.modelKey,
             },
         })
+    }
+    if (providerKey === 'seaart') {
+        const seaartConfig = await getSeaArtConfig(userId)
+        const isSora2 = selection.modelId === 'microsoft_sora2'
+        const seaartParams = isSora2
+            ? { prompt: options?.prompt || '', size: options?.resolution === '720p' ? '720x1280' : '1280x720', seconds: options?.duration || 4, input_reference: imageUrl }
+            : { input: { prompt: options?.prompt, img_url: imageUrl }, parameters: { resolution: options?.resolution === '720p' ? '720P' : '1080P', duration: options?.duration || 5 } }
+        const result = await generateSeaArtVideo({ config: seaartConfig, modelId: selection.modelId, params: seaartParams })
+        if (result.status === 'failed') {
+            throw new Error(`SEAART_VIDEO_FAILED: ${result.error?.message || 'Unknown error'}`)
+        }
+        return { success: true, videoUrl: result.videoUrl, requestId: result.taskId, async: result.status !== 'done' }
     }
     const providerConfig = await getProviderConfig(userId, selection.provider)
     const defaultGatewayRoute = resolveModelGatewayRoute(selection.provider)

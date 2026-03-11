@@ -149,6 +149,8 @@ const ROUTE_FILES = [
   'src/app/api/user/api-config/probe-model-llm-protocol/route.ts',
   'src/app/api/user/api-config/test-connection/route.ts',
   'src/app/api/user/api-config/test-provider/route.ts',
+  'src/app/api/internal-api/test/route.ts',
+  'src/app/api/internal-api/sync/route.ts',
   'src/app/api/user/balance/route.ts',
   'src/app/api/user/costs/details/route.ts',
   'src/app/api/user/costs/route.ts',

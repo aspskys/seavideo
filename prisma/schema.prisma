@@ -463,6 +463,9 @@ model UserPreference {
   // 自定义 OpenAI 兼容提供商列表（JSON，包含加密的 API Key）
   customProviders String? @db.Text
 
+  // 内部 API 配置（SeaArt 网关, JSON）
+  internalApiConfig String? @db.Text
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("user_preferences")
