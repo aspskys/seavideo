@@ -1,0 +1,84 @@
+{
+    "title": "内部API接入",
+    "description": "星海内部多模态与LLM服务网关配置",
+    "connectionStatus": "连接状态",
+    "connected": "已连接",
+    "disconnected": "未连接",
+    "testConnection": "测试连接",
+    "testing": "测试中...",
+    "testSuccess": "连接成功",
+    "testFailed": "连接失败",
+    "save": "保存配置",
+    "saved": "已保存",
+    "saving": "保存中...",
+    "reset": "重置",
+
+    "section": {
+        "auth": "认证配置",
+        "authDesc": "内部网关统一认证信息",
+        "llmEndpoints": "LLM 服务端点",
+        "llmEndpointsDesc": "大语言模型推理服务地址",
+        "multimodalEndpoints": "多模态服务端点",
+        "multimodalEndpointsDesc": "图像/视频生成任务网关地址",
+        "geminiModels": "Gemini 模型列表",
+        "geminiModelsDesc": "可用的 Gemini LLM 模型 ID",
+        "videoModels": "视频生成模型",
+        "videoModelsDesc": "Sora2、Wanx2.6 等视频生成接口"
+    },
+
+    "auth": {
+        "apiKey": "API Key",
+        "apiKeyPlaceholder": "sa-xxxxx",
+        "apiKeyHint": "统一密钥，可调用所有多模态和LLM服务",
+        "projectCode": "产线代号",
+        "projectCodePlaceholder": "SeaLuca",
+        "projectCodeHint": "请求头 X-Project 的值",
+        "headerFormat": "请求头格式",
+        "headerExample": "示例"
+    },
+
+    "endpoints": {
+        "env": "环境",
+        "url": "地址",
+        "dev": "测试环境",
+        "prodInternal": "生产内网",
+        "prodExternal": "生产外网",
+        "llmDev": "Dev LLM",
+        "llmProdInternal": "生产内网 LLM",
+        "llmProdExternal": "生产外网 LLM",
+        "multimodalCreate": "多模态创建任务",
+        "multimodalQuery": "多模态查询任务",
+        "multimodalProdInternal": "多模态生产内网网关",
+        "multimodalProdExternal": "多模态生产外网网关",
+        "activeEndpoint": "当前使用端点",
+        "selectEndpoint": "选择端点"
+    },
+
+    "gemini": {
+        "modelId": "模型 ID",
+        "status": "状态",
+        "enabled": "已启用",
+        "disabled": "已禁用"
+    },
+
+    "video": {
+        "sora2": "Microsoft Sora2",
+        "sora2Desc": "Microsoft Sora2 视频生成，支持文本到视频和图像到视频",
+        "wanx26": "Alibaba Wanx2.6 I2V",
+        "wanx26Desc": "阿里通义万相 2.6 图生视频，支持多分辨率、时长和音频",
+        "apiPath": "接口路径",
+        "method": "请求方式",
+        "params": "请求参数",
+        "paramName": "参数名",
+        "paramType": "类型",
+        "paramRequired": "必填",
+        "paramDefault": "默认值",
+        "paramDesc": "说明",
+        "response": "返回数据",
+        "respName": "字段名",
+        "respType": "类型",
+        "respDesc": "说明",
+        "yes": "是",
+        "no": "否"
+    }
+}

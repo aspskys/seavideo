@@ -1,0 +1,84 @@
+{
+    "title": "Internal API Access",
+    "description": "SeaArt internal multimodal & LLM service gateway configuration",
+    "connectionStatus": "Connection Status",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "testConnection": "Test Connection",
+    "testing": "Testing...",
+    "testSuccess": "Connection Successful",
+    "testFailed": "Connection Failed",
+    "save": "Save Config",
+    "saved": "Saved",
+    "saving": "Saving...",
+    "reset": "Reset",
+
+    "section": {
+        "auth": "Authentication",
+        "authDesc": "Unified gateway authentication credentials",
+        "llmEndpoints": "LLM Endpoints",
+        "llmEndpointsDesc": "Language model inference service URLs",
+        "multimodalEndpoints": "Multimodal Endpoints",
+        "multimodalEndpointsDesc": "Image/Video generation task gateway URLs",
+        "geminiModels": "Gemini Models",
+        "geminiModelsDesc": "Available Gemini LLM model IDs",
+        "videoModels": "Video Generation Models",
+        "videoModelsDesc": "Sora2, Wanx2.6 and other video generation APIs"
+    },
+
+    "auth": {
+        "apiKey": "API Key",
+        "apiKeyPlaceholder": "sa-xxxxx",
+        "apiKeyHint": "Unified key for all multimodal and LLM services",
+        "projectCode": "Project Code",
+        "projectCodePlaceholder": "SeaLuca",
+        "projectCodeHint": "Value for X-Project header",
+        "headerFormat": "Header Format",
+        "headerExample": "Example"
+    },
+
+    "endpoints": {
+        "env": "Environment",
+        "url": "URL",
+        "dev": "Development",
+        "prodInternal": "Production (Internal)",
+        "prodExternal": "Production (External)",
+        "llmDev": "Dev LLM",
+        "llmProdInternal": "Production Internal LLM",
+        "llmProdExternal": "Production External LLM",
+        "multimodalCreate": "Multimodal Create Task",
+        "multimodalQuery": "Multimodal Query Task",
+        "multimodalProdInternal": "Multimodal Production Internal Gateway",
+        "multimodalProdExternal": "Multimodal Production External Gateway",
+        "activeEndpoint": "Active Endpoint",
+        "selectEndpoint": "Select Endpoint"
+    },
+
+    "gemini": {
+        "modelId": "Model ID",
+        "status": "Status",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
+    },
+
+    "video": {
+        "sora2": "Microsoft Sora2",
+        "sora2Desc": "Microsoft Sora2 video generation, supports text-to-video and image-to-video",
+        "wanx26": "Alibaba Wanx2.6 I2V",
+        "wanx26Desc": "Alibaba Wanx 2.6 image-to-video, supports multiple resolutions, durations and audio",
+        "apiPath": "API Path",
+        "method": "Method",
+        "params": "Request Parameters",
+        "paramName": "Parameter",
+        "paramType": "Type",
+        "paramRequired": "Required",
+        "paramDefault": "Default",
+        "paramDesc": "Description",
+        "response": "Response Data",
+        "respName": "Field",
+        "respType": "Type",
+        "respDesc": "Description",
+        "yes": "Yes",
+        "no": "No"
+    }
+}

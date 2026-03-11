@@ -4,6 +4,7 @@ import { useSession, signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import Navbar from '@/components/Navbar'
 import ApiConfigTab from './components/ApiConfigTab'
+import InternalApiTab from './components/InternalApiTab'
 import { AppIcon } from '@/components/ui/icons'
 import { useRouter } from '@/i18n/navigation'
 
@@ -13,8 +14,7 @@ export default function ProfilePage() {
   const t = useTranslations('profile')
   const tc = useTranslations('common')
 
-  // 主要分区：扣费记录 / API配置
-  const [activeSection, setActiveSection] = useState<'billing' | 'apiConfig'>('apiConfig')
+  const [activeSection, setActiveSection] = useState<'billing' | 'apiConfig' | 'internalApi'>('apiConfig')
 
   useEffect(() => {
     if (status === 'loading') return
@@ -71,6 +71,17 @@ export default function ProfilePage() {
                 </button>
 
                 <button
+                  onClick={() => setActiveSection('internalApi')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all cursor-pointer ${activeSection === 'internalApi'
+                    ? 'glass-btn-base glass-btn-tone-info'
+                    : 'text-[var(--glass-text-secondary)] hover:bg-[var(--glass-bg-muted)]'
+                    }`}
+                >
+                  <AppIcon name="cpu" className="w-5 h-5" />
+                  <span className="font-medium">{t('internalApi')}</span>
+                </button>
+
+                <button
                   onClick={() => setActiveSection('billing')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all cursor-pointer ${activeSection === 'billing'
                     ? 'glass-btn-base glass-btn-tone-info'
@@ -96,9 +107,9 @@ export default function ProfilePage() {
           <div className="flex-1 min-w-0">
             <div className="glass-surface-elevated h-full flex flex-col">
 
-              {activeSection === 'apiConfig' ? (
-                <ApiConfigTab />
-              ) : (
+              {activeSection === 'apiConfig' && <ApiConfigTab />}
+              {activeSection === 'internalApi' && <InternalApiTab />}
+              {activeSection === 'billing' && (
                 <div className="flex h-full flex-col items-center justify-center px-6 text-center">
                   <AppIcon name="receipt" className="mb-4 h-12 w-12 text-[var(--glass-text-tertiary)]" />
                   <p className="text-base font-semibold text-[var(--glass-text-primary)]">{noBillingText}</p>
