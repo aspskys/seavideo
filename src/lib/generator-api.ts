@@ -259,7 +259,7 @@ export async function generateVideo(
         if (result.status === 'failed') {
             throw new Error(`SEAART_VIDEO_FAILED: ${result.error?.message || 'Unknown error'}`)
         }
-        return { success: true, videoUrl: result.videoUrl, requestId: result.taskId, async: result.status !== 'done' }
+        return { success: true, videoUrl: result.videoUrl, externalId: result.taskId ? `SEAART:VIDEO:${result.taskId}` : undefined, requestId: result.taskId, async: result.status !== 'done' }
     }
     const providerConfig = await getProviderConfig(userId, selection.provider)
     const defaultGatewayRoute = resolveModelGatewayRoute(selection.provider)
