@@ -33,9 +33,19 @@ export const SEAART_GEMINI_MODELS = [
     { modelId: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', type: 'llm' as const },
 ]
 
+export const SEAART_IMAGE_MODELS = [
+    {
+        modelId: 'google_gemini3_pro_image',
+        name: 'Gemini 3 Pro Image',
+        type: 'image' as const,
+        apiPath: '/api/v1/google_gemini3_pro_image/generate',
+    },
+]
+
 export const SEAART_VIDEO_MODELS = [
     { modelId: 'microsoft_sora2', name: 'Microsoft Sora2', type: 'video' as const, apiPath: '/api/v1/microsoft_sora2/generate' },
     { modelId: 'alibaba_wanx26_i2v', name: 'Alibaba Wanx2.6 I2V', type: 'video' as const, apiPath: '/api/v1/alibaba/alibaba_wanx26_i2v/generate' },
+    { modelId: 'alibaba_wanx26_i2v_flash', name: 'Alibaba Wanx2.6 I2V Flash', type: 'video' as const, apiPath: '/api/v1/alibaba/alibaba_wanx26_i2v_flash/generate' },
 ]
 
 const DEFAULT_CONFIG: SeaArtConfig = {

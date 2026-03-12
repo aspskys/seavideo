@@ -9,6 +9,15 @@ export async function register() {
 
   // 只在 Node.js 服务端运行
   if (process.env.NEXT_RUNTIME === 'nodejs') {
+    // 设置全局 HTTP 代理（Clash / V2Ray），使 Node.js fetch 能访问外部 CDN
+    if (process.env.HTTPS_PROXY || process.env.HTTP_PROXY) {
+      try {
+        const { setGlobalDispatcher, EnvHttpProxyAgent } = await import('undici')
+        setGlobalDispatcher(new EnvHttpProxyAgent())
+      } catch {
+        // undici 不可用时静默忽略，fetch 走默认路径
+      }
+    }
     const { prisma } = await import('@/lib/prisma')
     const { logInfo: _ulogInfo, logError: _ulogError } = await import('@/lib/logging/core')
 

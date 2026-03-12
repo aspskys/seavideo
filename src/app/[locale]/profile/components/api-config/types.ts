@@ -96,9 +96,12 @@ export const PRESET_MODELS: PresetModel[] = [
     { modelId: 'gemini-3-flash-preview', name: 'Gemini 3 Flash', type: 'llm', provider: 'seaart' },
     { modelId: 'gemini-3-pro-preview', name: 'Gemini 3 Pro', type: 'llm', provider: 'seaart' },
     { modelId: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', type: 'llm', provider: 'seaart' },
+    // SeaArt 内部图片模型
+    { modelId: 'google_gemini3_pro_image', name: 'Gemini 3 Pro Image', type: 'image', provider: 'seaart' },
     // SeaArt 内部视频模型
     { modelId: 'microsoft_sora2', name: 'Microsoft Sora2', type: 'video', provider: 'seaart' },
     { modelId: 'alibaba_wanx26_i2v', name: 'Alibaba Wanx2.6 I2V', type: 'video', provider: 'seaart' },
+    { modelId: 'alibaba_wanx26_i2v_flash', name: 'Alibaba Wanx2.6 I2V Flash', type: 'video', provider: 'seaart' },
     // 文本模型
     { modelId: 'google/gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', type: 'llm', provider: 'openrouter' },
     { modelId: 'google/gemini-3-pro-preview', name: 'Gemini 3 Pro', type: 'llm', provider: 'openrouter' },

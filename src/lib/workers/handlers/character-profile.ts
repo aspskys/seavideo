@@ -113,11 +113,23 @@ async function handleConfirmProfile(
     ? (visualData.characters as Array<AnyObj>)
     : []
   const firstCharacter = visualCharacters[0]
-  const appearances = Array.isArray(firstCharacter?.appearances)
-    ? (firstCharacter!.appearances as Array<AnyObj>)
-    : []
+  // Handle common LLM variations: "appearances" vs "appearance" vs top-level array
+  let appearances: AnyObj[] = []
+  if (Array.isArray(firstCharacter?.appearances)) {
+    appearances = firstCharacter!.appearances as AnyObj[]
+  } else if (Array.isArray(firstCharacter?.appearance)) {
+    appearances = firstCharacter!.appearance as AnyObj[]
+  } else if (firstCharacter?.descriptions || firstCharacter?.description) {
+    // Model might flatten the structure: put descriptions directly in character
+    const descs = firstCharacter.descriptions || firstCharacter.description
+    appearances = [{
+      id: 0,
+      descriptions: Array.isArray(descs) ? descs : [descs],
+      change_reason: '初始形象',
+    }]
+  }
   if (appearances.length === 0) {
-    throw new Error('AI返回格式错误: 缺少 appearances')
+    throw new Error(`AI返回格式错误: 缺少 appearances (响应片段: ${responseText.slice(0, 300)})`)
   }
 
   if (!suppressProgress) {

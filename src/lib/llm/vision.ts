@@ -22,6 +22,7 @@ import {
 } from './runtime-shared'
 import { completeBailianLlm } from '@/lib/providers/bailian'
 import { completeSiliconFlowLlm } from '@/lib/providers/siliconflow'
+import { getSeaArtConfig, getSeaArtLlmEndpoint } from '@/lib/providers/seaart'
 
 type GoogleVisionPart = { inlineData: { mimeType: string; data: string } } | { text: string }
 type ArkVisionContentItem = { type: 'input_image'; image_url: string } | { type: 'input_text'; text: string }
@@ -222,6 +223,53 @@ export async function chatCompletionWithVision(
           },
         })
         return completion
+      }
+
+      if (providerKey === 'seaart') {
+        const seaartConfig = await getSeaArtConfig(userId)
+        const endpoint = getSeaArtLlmEndpoint(seaartConfig)
+        const client = new OpenAI({
+          apiKey: seaartConfig.apiKey,
+          baseURL: `${endpoint}/v1`,
+          defaultHeaders: { 'X-Project': seaartConfig.projectCode },
+        })
+
+        const content: OpenAiVisionContentItem[] = []
+        if (textPrompt) content.push({ type: 'text', text: textPrompt })
+
+        for (const url of imageUrls) {
+          let finalUrl = url
+          if (url.startsWith('/api/files/') || url.startsWith('/')) {
+            try {
+              const { normalizeToBase64ForGeneration } = await import('@/lib/media/outbound-image')
+              finalUrl = await normalizeToBase64ForGeneration(url)
+            } catch {
+              const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+              finalUrl = `${baseUrl}${url}`
+            }
+          }
+          content.push({ type: 'image_url', image_url: { url: finalUrl } })
+        }
+
+        const completion = await client.chat.completions.create({
+          model: resolvedModelId,
+          messages: [{ role: 'user', content }],
+          temperature,
+        })
+        recordCompletionUsage(resolvedModelId, completion as OpenAI.Chat.Completions.ChatCompletion)
+        llmLogger.info({
+          action: 'llm.vision.success',
+          message: 'llm vision call succeeded',
+          provider: providerKey,
+          durationMs: Date.now() - attemptStartedAt,
+          details: {
+            model: resolvedModelId,
+            attempt,
+            maxRetries,
+            imageCount: imageUrls.length,
+          },
+        })
+        return completion as OpenAI.Chat.Completions.ChatCompletion
       }
 
       const config = providerConfig

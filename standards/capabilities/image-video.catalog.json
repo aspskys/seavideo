@@ -1047,5 +1047,67 @@
         "supportGenerateAudio": false
       }
     }
+  },
+  {
+    "modelType": "image",
+    "provider": "seaart",
+    "modelId": "google_gemini3_pro_image",
+    "capabilities": {
+      "image": {
+        "resolutionOptions": [
+          "1K",
+          "2K",
+          "4K"
+        ]
+      }
+    }
+  },
+  {
+    "modelType": "video",
+    "provider": "seaart",
+    "modelId": "microsoft_sora2",
+    "capabilities": {
+      "video": {
+        "generationModeOptions": [
+          "normal"
+        ],
+        "durationOptions": [
+          4,
+          5,
+          6,
+          8,
+          10
+        ],
+        "resolutionOptions": [
+          "720p"
+        ],
+        "firstlastframe": false,
+        "supportGenerateAudio": false
+      }
+    }
+  },
+  {
+    "modelType": "video",
+    "provider": "seaart",
+    "modelId": "alibaba_wanx26_i2v",
+    "capabilities": {
+      "video": {
+        "generationModeOptions": [
+          "normal"
+        ],
+        "durationOptions": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "resolutionOptions": [
+          "720p",
+          "1080p"
+        ],
+        "firstlastframe": false,
+        "supportGenerateAudio": true
+      }
+    }
   }
 ]
